@@ -16,13 +16,22 @@ export class GameLogic {
     [0, 4, 8],
     [2, 4, 6],
   ]
-  private readonly gameState: GameState = {
-    x: new Array(9).fill(10),
-    o: new Array(9).fill(10),
-  }
-  private player: string = 'o'
 
-  private readonly clearGameResult = (): HTMLDivElement => {
+  private readonly constructorInit: any = () => {
+    return {
+      gameStateInit: {
+        x: new Array(9).fill(-1),
+        o: new Array(9).fill(-1),
+      },
+      playerInit: 'o',
+    }
+  }
+
+  private readonly gameState: GameState = this.constructorInit().gameStateInit
+
+  private player: string = this.constructorInit().playerInit
+
+  private readonly clearStatusMsg = (): HTMLDivElement => {
     const tttJsStatus: HTMLDivElement = document.querySelectorAll('.TttJs__status')[0]
     tttJsStatus.innerHTML = ''
     return tttJsStatus
@@ -46,20 +55,30 @@ export class GameLogic {
 
   private readonly appendGameResult = (): void => {
     // Player X is the winner
-    const tttJsStatus: HTMLDivElement = this.clearGameResult()
+    let capturePart1Text = `Player&nbsp;&nbsp;`
+    let capturePart2Text = `${this.player}`
+    let capturePart3Text = `&nbsp;&nbsp;is the winner`
+
+    if (this.countMoves() === 9) {
+      capturePart1Text = `Nobody`
+      capturePart2Text = ''
+      capturePart3Text = `&nbsp;&nbsp;is the winner`
+    }
+
+    const tttJsStatus: HTMLDivElement = this.clearStatusMsg()
 
     const capturePart1: HTMLDivElement = document.createElement('div')
-    capturePart1.innerHTML = `Player&nbsp;&nbsp;`
+    capturePart1.innerHTML = capturePart1Text
     capturePart1.setAttribute('class', 'TttJs__capture')
     tttJsStatus.appendChild(capturePart1)
 
     const capturePart2: HTMLDivElement = document.createElement('div')
-    capturePart2.innerHTML = `${this.player}`
+    capturePart2.innerHTML = capturePart2Text
     capturePart2.setAttribute('class', 'TttJs__capture TttJs__capture_uppercase')
     tttJsStatus.appendChild(capturePart2)
 
     const capturePart3: HTMLDivElement = document.createElement('div')
-    capturePart3.innerHTML = `&nbsp;&nbsp;is the winner`
+    capturePart3.innerHTML = capturePart3Text
     capturePart3.setAttribute('class', 'TttJs__capture')
     tttJsStatus.appendChild(capturePart3)
   }
@@ -69,8 +88,8 @@ export class GameLogic {
     const tmpObj: any = {}
 
     squares.forEach((item: HTMLDivElement, i: number) => {
-      Object.keys(this.gameState).forEach((key: string) => {
-        const indexOf: number = this.gameState[key].indexOf(i)
+      Object.keys(this.getGameState()).forEach((key: string) => {
+        const indexOf: number = this.getGameState()[key].indexOf(i)
         if (indexOf > -1) {
           tmpObj[i] = key
           squares[i].innerHTML = key
@@ -91,38 +110,46 @@ export class GameLogic {
   }
 
   public setGameState = (index: number): void => {
-    this.gameState[this.player] = [
-      ...this.gameState[this.player].slice(0, index),
+    this.getGameState()[this.player] = [
+      ...this.getGameState()[this.player].slice(0, index),
       index,
-      ...this.gameState[this.player].slice(index + 1),
+      ...this.getGameState()[this.player].slice(index + 1),
     ]
     this.renderSpuareValues()
   }
 
-  public clearGameState = (): void => {
-    this.player = 'o'
-    this.gameState.x = new Array(9).fill(10)
-    this.gameState.o = new Array(9).fill(10)
+  public getGameState = (): GameState => {
+    return this.gameState
+  }
+
+  public clearGameState = (): void => {    
+    this.player = this.constructorInit().playerInit
+    this.gameState.x = this.constructorInit().gameStateInit.x
+    this.gameState.o = this.constructorInit().gameStateInit.o
     this.renderSpuareValues()
-    this.clearGameResult()
+    this.clearStatusMsg()
     this.unColorLuckyNum()
   }
 
   public isClickable = (index: number): boolean => {
     let outcome: boolean = true
-    Object.keys(this.gameState).forEach((key: string) => {
+    Object.keys(this.getGameState()).forEach((key: string) => {
       if (outcome) {
-        outcome = !this.gameState[key].includes(index)
+        outcome = !this.getGameState()[key].includes(index)
       }
     })
 
     return outcome
   }
 
+  public countMoves =  (): number =>
+    this.getGameState().x.filter((item: number) => item > -1).length
+    + this.getGameState().o.filter((item: number) => item > -1).length
+
   public getGameResult = (): boolean => {
 
     let playeResult: boolean = false
-    const playerState: number[] = this.gameState[this.player]
+    const playerState: number[] = this.getGameState()[this.player]
     let luckyNum: number[] = []
 
     this.luckyComb.forEach((arr: number[]) => {
@@ -140,7 +167,7 @@ export class GameLogic {
       }
     })
 
-    if (playeResult) {
+    if (playeResult || this.countMoves() === 9) {
       this.colorLuckyNum(luckyNum)
       this.appendGameResult()
       EventMangementInst.removeClickSquareEventsToBoard()

@@ -13,7 +13,6 @@ class EventMangement {
         }
 
         GameLogicInst.setPlayer()
-        const player: string = GameLogicInst.getPlayer()
         GameLogicInst.setGameState(action.i)
         GameLogicInst.getGameResult()
       }
