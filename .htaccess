@@ -1,0 +1,24 @@
+
+
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule .* index.html [L]
+
+
+
+#Redirect root and only root to another host
+## Source: http://serverfault.com/questions/58762/how-to-redirect-root-and-only-root-via-htaccess
+RewriteCond %{HTTP_HOST} sitewindows\.com [NC]
+RewriteCond %{REQUEST_URI} ^/$
+Rewriterule ^(.*)$ http://sitewindows.com/site-windows-info.html [L,R=301]
+
+
+#Options -Indexes
+ErrorDocument 404 /404.php
+
+
+#Redirects
+Redirect /1		http://sitewindows.com/site-windows-info.html
+
+

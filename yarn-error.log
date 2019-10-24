@@ -1,0 +1,120 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js install
+
+PATH: 
+  C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\libnvvp;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\ProgramData\Anaconda3;C:\ProgramData\Anaconda3\Library\mingw-w64\bin;C:\ProgramData\Anaconda3\Library\usr\bin;C:\ProgramData\Anaconda3\Library\bin;C:\ProgramData\Anaconda3\Scripts;C:\Program Files\Microsoft MPI\Bin\;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Program Files\Docker\Docker\Resources\bin;C:\ProgramData\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\Git\cmd;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files (x86)\Calibre2\;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Users\ybeaz\AppData\Local\Programs\Python\Python36;C:\ProgramPortable\wget;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C;C:\Program Files\php\v7.2;C:\composer;C:\Program Files\Microsoft VS Code\bin;C:\Program Files\kubectl;C:\Program Files\helm\windows-amd64;C:\Program Files\IBM\Cloud\bin;C:\Program Files\TortoiseGit\bin;C:\Program Files\NVIDIA Corporation\Nsight Compute 2019.3.0\;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\nodejs\;C:\Program Files (x86)\Yarn\bin\;C:\Users\ybeaz\AppData\Local\Programs\Python\Python36\Scripts\;C:\Users\ybeaz\AppData\Local\Programs\Python\Python36\;C:\Users\ybeaz\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Java\jdk1.8.0_152\bin;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Users\ybeaz\AppData\Roaming\Composer\vendor\bin;C:\Program Files\MongoDB\Server\4.0\bin;C:\Users\ybeaz\AppData\Roaming\npm;C:\Users\ybeaz\AppData\Local\Yarn\bin
+
+Yarn version: 
+  1.19.0
+
+Node version: 
+  10.16.3
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/@fortawesome/free-solid-svg-icons/-/free-solid-svg-icons-5.11.2.tgz: ESOCKETTIMEDOUT
+      at ClientRequest.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:141166:19)
+      at Object.onceWrapper (events.js:286:20)
+      at ClientRequest.emit (events.js:198:13)
+      at TLSSocket.emitRequestTimeout (_http_client.js:662:40)
+      at Object.onceWrapper (events.js:286:20)
+      at TLSSocket.emit (events.js:198:13)
+      at TLSSocket.Socket._onTimeout (net.js:442:8)
+      at ontimeout (timers.js:436:11)
+      at tryOnTimeout (timers.js:300:5)
+      at listOnTimeout (timers.js:263:5)
+
+npm manifest: 
+  {
+    "name": "new",
+    "version": "1.0.0",
+    "description": "",
+    "keywords": [],
+    "main": "src/index.js",
+    "dependencies": {
+      "@fortawesome/fontawesome-svg-core": "^1.2.17",
+      "@fortawesome/free-brands-svg-icons": "^5.8.1",
+      "@fortawesome/free-regular-svg-icons": "^5.8.1",
+      "@fortawesome/free-solid-svg-icons": "^5.8.1",
+      "@fortawesome/react-fontawesome": "^0.1.4",
+      "@types/babel__core": "^7.1.0",
+      "@types/node": "^11.11.4",
+      "awesome-typescript-loader": "^5.2.1",
+      "dompurify": "^1.0.10",
+      "prop-types": "^15.7.2",
+      "react": "16.8.0",
+      "react-dom": "16.8.0",
+      "react-redux": "6.0.1",
+      "react-router-dom": "^4.3.1",
+      "react-router-redux": "4.0.8",
+      "react-scripts": "2.0.3",
+      "react-swipeable": "^5.0.1",
+      "redux": "4.0.1",
+      "redux-action-log": "^2.1.0",
+      "redux-saga": "1.0.1",
+      "source-map-loader": "^0.2.4",
+      "uuid": "^3.3.2",
+      "uuidv4": "^3.0.1"
+    },
+    "devDependencies": {
+      "@babel/cli": "^7.2.0",
+      "@babel/core": "^7.2.0",
+      "@babel/plugin-proposal-class-properties": "^7.2.1",
+      "@babel/plugin-proposal-object-rest-spread": "^7.2.0",
+      "@babel/preset-env": "^7.2.0",
+      "@babel/preset-typescript": "^7.3.3",
+      "@types/prop-types": "^15.7.0",
+      "@types/react": "^16.8.8",
+      "@types/react-dom": "^16.8.3",
+      "@types/react-fontawesome": "^1.6.4",
+      "@types/react-redux": "^7.1.4",
+      "@types/react-test-renderer": "^16.8.1",
+      "@typescript-eslint/parser": "^1.5.0",
+      "babel-loader": "8.0.5",
+      "eslint": "^6.5.1",
+      "eslint-loader": "2.1.2",
+      "eslint-plugin-jsx-a11y": "^6.2.3",
+      "fork-ts-checker-webpack-plugin": "^1.0.1",
+      "jest": "24.1.0",
+      "less-loader": "4.1.0",
+      "opn-cli": "^4.1.0",
+      "styles-loader": "1.0.0",
+      "ts-loader": "^5.3.3",
+      "ts-transformer-keys": "^0.3.4",
+      "tslint": "^5.14.0",
+      "tslint-eslint-rules": "^5.4.0",
+      "tslint-loader": "^3.5.4",
+      "tslint-microsoft-contrib": "^6.1.0",
+      "tslint-webpack-plugin": "^2.0.4",
+      "typescript": "^3.2.2",
+      "typescript-plugin-styled-components": "^1.4.2",
+      "webpack": "4.29.5",
+      "webpack-bundle-analyzer": "^3.0.4",
+      "webpack-cli": "^3.2.3",
+      "webpack-dev-middleware": "^3.6.0",
+      "webpack-dev-server": "^3.2.0",
+      "webpack-merge": "^4.2.1"
+    },
+    "scripts": {
+      "start": "opn http://127.0.0.1:3000/191023-tic-tac-toe & webpack-dev-server --config webpack.dev.js --color",
+      "dev": "webpack-dev-server --config webpack.dev.js --color",
+      "build": "webpack -p --config webpack.prod.js",
+      "jest": "jest",
+      "ba": "webpack-bundle-analyzer --port 4200 dist02/stats.json",
+      "eject": "react-scripts eject"
+    },
+    "browserslist": [
+      ">0.2%",
+      "not dead",
+      "not ie <= 11",
+      "not op_mini all"
+    ]
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
