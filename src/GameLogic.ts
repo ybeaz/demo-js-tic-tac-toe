@@ -44,7 +44,7 @@ export class GameLogic {
     })
   }
 
-  private readonly colorLuckyNum = (luckyNum: number[]): void => {
+  private readonly colorLuckyNum = (luckyNum: number[] | []): void => {
     const squares: NodeList = document.querySelectorAll('.TttJs__square')
     squares.forEach((elem: HTMLDivElement, i: number) => {
       if (luckyNum.includes(i)) {
@@ -53,13 +53,13 @@ export class GameLogic {
     })
   }
 
-  private readonly appendGameResult = (): void => {
+  private readonly appendGameResult = (luckyNum: number[] | []): void => {
     // Player X is the winner
     let capturePart1Text = `Player&nbsp;&nbsp;`
     let capturePart2Text = `${this.player}`
     let capturePart3Text = `&nbsp;&nbsp;is the winner`
 
-    if (this.countMoves() === 9) {
+    if (this.countMoves() === 9 && luckyNum.length === 0) {
       capturePart1Text = `No one won`
       capturePart2Text = ''
       capturePart3Text = ''
@@ -105,6 +105,7 @@ export class GameLogic {
   public setPlayer = (): void => {
     this.player = this.player === 'x' ? 'o' : 'x'
   }
+
   public getPlayer = (): string => {
     return this.player
   }
@@ -169,7 +170,7 @@ export class GameLogic {
 
     if (playeResult || this.countMoves() === 9) {
       this.colorLuckyNum(luckyNum)
-      this.appendGameResult()
+      this.appendGameResult(luckyNum)
       EventMangementInst.removeClickSquareEventsToBoard()
       EventMangementInst.addClickBoardEvent()
     }
