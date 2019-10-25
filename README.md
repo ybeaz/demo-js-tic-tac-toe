@@ -1,6 +1,10 @@
 # Tic-tac-toe board with ES7 Javascript
 
- ##### Use case description
+##### Link to a working example
+[JS Tic Tak-Toe Game life demo](https://r1.userto.com/demo-tic-tak-toe-js.html)
+
+
+##### Use case description
 
 1)  Create a tic-tac-toe board using html/css.
 
@@ -19,7 +23,7 @@
     d) Clicking the board after a games has been played should reset
         the board and all notifications.
  
- ##### Game logic
+##### Game logic
  
  1) First player is X second player is O.
  2) Players alternate placing Xs and Os on the board
