@@ -1,4 +1,6 @@
-# Tic-tac-toe board with ES6 Javascript with ES7 JS
+# Tic-tac-toe board with ES7 Javascript
+
+ ##### Use case description
 
 1)  Create a tic-tac-toe board using html/css.
 

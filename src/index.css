@@ -9,6 +9,10 @@
   font-weight: 700;
   font-family: "Titillium Web", Helvetica, sans-serif;
 }
+  .TttJs__title {
+    text-align: center;
+    font-size: 2rem;
+  }
 
   .TttJs__status {
     font-size: 1.2rem;
@@ -62,3 +66,9 @@
     .TttJs__link {
       text-decoration: none;
     }
+
+@media screen and (max-width: 480px) {
+  .TttJs__title {
+    font-size: 10vw;
+  }
+}

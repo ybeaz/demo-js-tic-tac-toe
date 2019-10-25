@@ -60,9 +60,9 @@ export class GameLogic {
     let capturePart3Text = `&nbsp;&nbsp;is the winner`
 
     if (this.countMoves() === 9) {
-      capturePart1Text = `Nobody`
+      capturePart1Text = `No one won`
       capturePart2Text = ''
-      capturePart3Text = `&nbsp;&nbsp;is the winner`
+      capturePart3Text = ''
     }
 
     const tttJsStatus: HTMLDivElement = this.clearStatusMsg()
@@ -122,7 +122,7 @@ export class GameLogic {
     return this.gameState
   }
 
-  public clearGameState = (): void => {    
+  public clearGameState = (): void => {
     this.player = this.constructorInit().playerInit
     this.gameState.x = this.constructorInit().gameStateInit.x
     this.gameState.o = this.constructorInit().gameStateInit.o
@@ -161,8 +161,8 @@ export class GameLogic {
         }
       })
 
-      if (!playeResult) {
-        isComb.length === 3 ? playeResult = true : playeResult = false
+      if (!playeResult && isComb.length === 3) {
+        playeResult = true
         luckyNum = [ ...arr ]
       }
     })
