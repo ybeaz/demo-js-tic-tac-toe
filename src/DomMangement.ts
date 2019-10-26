@@ -81,6 +81,13 @@ class DomMangement {
     })
   }
 
+  public addBodyOnLoad = (): void => {
+
+    window.onload = (): void => {
+      document.getElementsByTagName('body')[0].style.opacity = '1'
+    }
+
+  }
 }
 
 export const DomMangementInst: any = new DomMangement()
