@@ -9,64 +9,89 @@
   font-weight: 700;
   font-family: "Titillium Web", Helvetica, sans-serif;
 }
-  .TttJs__title {
-    text-align: center;
-    font-size: 2rem;
+  .TttJs__column_1 {
+
+  }
+   
+  .TttJs__column_2 {
+    width: min-content;
   }
 
-  .TttJs__status {
-    font-size: 1.2rem;
-    padding: 1rem;
-    display: flex;
-    min-height: 2rem;
-  }
-
-  .TttJs__table {
-    display: flex;
-    flex-direction: column;
-  }
-    .TttJs__row {
-      display: flex;
-      flex-direction: row;
+    .TttJs__title {
+      text-align: center;
+      font-size: 2rem;
     }
 
-      .TttJs__square {
-        background: #fff;
-        border: 1px solid #999;
-        float: left;
-        font-size: 24px;
-        font-weight: 700;
-        line-height: 34px;
-        height: 3em;
-        margin-right: -1px;
-        margin-top: -1px;
-        padding: 0;
-        text-align: center;
-        width: 3em;
-        cursor: pointer;
-        text-transform: uppercase;
+    .TttJs__status {
+      font-size: 1.1rem;
+      padding: 1rem 0;
+      display: flex;
+      min-height: 2rem;
+      justify-content: center;
+    }
+
+    .TttJs__table {
+      display: flex;
+      flex-direction: column;
+    }
+      .TttJs__row {
+        display: flex;
+        flex-direction: row;
       }
 
-      .TttJs__square_green {
-        color: green;
-      }
-
-        .TttJs__capture {
-
-        }
-
-        .TttJs__capture_uppercase {
+        .TttJs__square {
+          background: #fff;
+          border: 1px solid #999;
+          float: left;
+          font-size: 24px;
+          font-weight: 700;
+          line-height: 34px;
+          height: 3em;
+          margin-right: -1px;
+          margin-top: -1px;
+          padding: 0;
+          text-align: center;
+          width: 3em;
+          cursor: pointer;
           text-transform: uppercase;
         }
-  
-  .TttJs__link_wrapper {
-    padding-top: 1.5rem;
-  }
 
-    .TttJs__link {
-      text-decoration: none;
-      font-size: 1.2rem;
-      font-weight: 500;
+        .TttJs__square_green {
+          color: green;
+        }
+
+          .TttJs__capture {
+
+          }
+
+          .TttJs__capture_uppercase {
+            text-transform: uppercase;
+          }
+    
+    .TttJs__section_c {
+      display: flex;
+      flex-direction: row;
+      padding-top: 1.5rem;
+    }
+
+      .TttJs__undo {
+        width: fit-content;
+        height: fit-content;
+        color: #9d9c9c;
+      }
+
+      .TttJs__link_wrapper {
+        margin-left: auto;
+      }
+
+        .TttJs__link {
+          text-decoration: none;
+          font-size: 1.2rem;
+          font-weight: 500;
+        }
+
+    .TttJs__column_3 {
+
     }
 
 @media screen and (max-width: 480px) {

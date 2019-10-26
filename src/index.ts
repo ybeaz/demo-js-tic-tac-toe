@@ -1,6 +1,7 @@
 import 'core-js'
 
-import { EventMangementInst } from './EventMangement'
+import { DomMangementInst } from './DomMangement'
 import './index.css'
 
-EventMangementInst.addClickSquareEventsToBoard()
+DomMangementInst.addClickSquareEventsToBoard()
+DomMangementInst.addUndo()

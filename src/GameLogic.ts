@@ -1,4 +1,4 @@
-import { EventMangementInst } from './EventMangement'
+import { DomMangementInst } from './DomMangement'
 
 interface GameState {
   x: number[],
@@ -23,13 +23,14 @@ export class GameLogic {
         x: new Array(9).fill(-1),
         o: new Array(9).fill(-1),
       },
-      playerInit: 'o',
+      playerInit: 'x',
     }
   }
 
-  private readonly gameState: GameState = this.constructorInit().gameStateInit
-
+  private luckyNum: number[] = []
   private player: string = this.constructorInit().playerInit
+  private prevGameState: GameState =  this.constructorInit().gameStateInit
+  private readonly gameState: GameState = this.constructorInit().gameStateInit
 
   private readonly clearStatusMsg = (): HTMLDivElement => {
     const tttJsStatus: HTMLDivElement = document.querySelectorAll('.TttJs__status')[0]
@@ -110,12 +111,80 @@ export class GameLogic {
     return this.player
   }
 
-  public setGameState = (index: number): void => {
-    this.getGameState()[this.player] = [
-      ...this.getGameState()[this.player].slice(0, index),
-      index,
-      ...this.getGameState()[this.player].slice(index + 1),
-    ]
+  private readonly randMinMax = (min: number, max: number): number => {
+    const mathRandom: number = Math.random()
+
+    return Math.floor(min + mathRandom * (max - min + 1))
+  }
+
+  private readonly generateGameMove = (): void => {
+    const arrNext: number[] = this.getGameState().o.map((item: number, i: number) => {
+      let output: number = -i * 10
+      if (this.getGameState().x[i] > -1 || item > -1) {
+        output = this.getGameState().x[i] > -1 ? this.getGameState().x[i] : item
+      }
+
+      return output
+    })
+    .filter((item: number) => item <= 0)
+    .map((item: number) => item * -1 / 10)
+
+    const rand: number = this.randMinMax(0, arrNext.length - 1)
+    const oPlayerMove: number = arrNext[rand]
+    this.setGameState(oPlayerMove)
+  }
+
+  // tslint:disable-next-line: promise-function-async
+  private readonly timeout = (ms: number): any => {
+    return new Promise((res: void) => {
+      setTimeout(res, ms)
+    })
+  }
+
+  public setGameState = (index: number = -1): void => {
+    let caseWatch = ''
+    if (index === -1) {
+      caseWatch = 'prev'
+      const prevGameStateX: number[] = this.prevGameState.x
+      const prevGameStateO: number[] = this.prevGameState.o
+      this.gameState.x = [...prevGameStateX]
+      this.gameState.o = [...prevGameStateO]
+      this.player = this.constructorInit().playerInit
+      DomMangementInst.removeClickBoardEvent()
+      DomMangementInst.addClickSquareEventsToBoard()
+      this.clearStatusMsg()
+      this.unColorLuckyNum()
+    }
+    else {
+      if (this.player === 'x' && this.luckyNum.length === 0) {
+        caseWatch = 'setPrev'
+        const prevGameStateX: number[] = this.getGameState().x
+        const prevGameStateO: number[] = this.getGameState().o
+        this.prevGameState.x = [...prevGameStateX]
+        this.prevGameState.o = [...prevGameStateO]
+      }
+
+      this.gameState[this.player] = [
+        ...this.gameState[this.player].slice(0, index),
+        index,
+        ...this.gameState[this.player].slice(index + 1),
+      ]
+
+      this.getGameResult()
+      this.setPlayer()
+
+      if (this.getPlayer() === 'o' && this.luckyNum.length === 0) {
+        caseWatch = 'oMove'
+        // tslint:disable-next-line: no-floating-promises
+        this.timeout(500)
+          .then(() => {
+            this.generateGameMove()
+          })
+      }
+    }
+    // console.info('setGameState [10]', { luckyNum: this.luckyNum, caseWatch, player: this.player, pres: this.gameState, prev: this.prevGameState })
+
+    // Subscribed processes
     this.renderSpuareValues()
   }
 
@@ -130,6 +199,7 @@ export class GameLogic {
     this.renderSpuareValues()
     this.clearStatusMsg()
     this.unColorLuckyNum()
+    this.luckyNum = []
   }
 
   public isClickable = (index: number): boolean => {
@@ -151,7 +221,6 @@ export class GameLogic {
 
     let playeResult: boolean = false
     const playerState: number[] = this.getGameState()[this.player]
-    let luckyNum: number[] = []
 
     this.luckyComb.forEach((arr: number[]) => {
       const isComb: boolean[] = []
@@ -164,17 +233,16 @@ export class GameLogic {
 
       if (!playeResult && isComb.length === 3) {
         playeResult = true
-        luckyNum = [ ...arr ]
+        this.luckyNum = [ ...arr ]
       }
     })
 
     if (playeResult || this.countMoves() === 9) {
-      this.colorLuckyNum(luckyNum)
-      this.appendGameResult(luckyNum)
-      EventMangementInst.removeClickSquareEventsToBoard()
-      EventMangementInst.addClickBoardEvent()
+      this.colorLuckyNum(this.luckyNum)
+      this.appendGameResult(this.luckyNum)
+      DomMangementInst.removeClickSquareEventsToBoard()
+      DomMangementInst.addClickBoardEvent()
     }
-
     return playeResult
   }
 }

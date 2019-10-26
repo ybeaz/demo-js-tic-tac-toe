@@ -1,28 +1,38 @@
+import { icon } from '@fortawesome/fontawesome-svg-core'
+import { faUndo } from '@fortawesome/free-solid-svg-icons'
+
 import { GameLogic } from './GameLogic'
 
 const GameLogicInst: any = new GameLogic()
 
-class EventMangement {
+class DomMangement {
 
-  private readonly eventHandler = (action: any): void => {
+  private readonly eventHandler = (e: Event, action: any): void => {
+    e.preventDefault()
+
     switch (action.type) {
+      case 'clickUndo':
+      {
+        console.info('DomMangement->eventHandler', { type: action.type, action })
+        GameLogicInst.setGameState()
+      }
+      break
+
       case 'clickSquare':
       {
-        if (!GameLogicInst.isClickable(action.i)) { 
+        if (!GameLogicInst.isClickable(action.i)) {
           break
         }
 
-        GameLogicInst.setPlayer()
         GameLogicInst.setGameState(action.i)
-        GameLogicInst.getGameResult()
       }
       break
 
       case 'clickTable':
       {
-        EventMangementInst.removeClickBoardEvent()
+        DomMangementInst.removeClickBoardEvent()
         GameLogicInst.clearGameState()
-        EventMangementInst.addClickSquareEventsToBoard()
+        DomMangementInst.addClickSquareEventsToBoard()
       }
       break
 
@@ -35,7 +45,7 @@ class EventMangement {
   public addClickSquareEventsToBoard = (): void => {
     const squares: NodeList = document.querySelectorAll('.TttJs__square')
     squares.forEach((item: HTMLElement | null, i: number) => {
-      item.addEventListener('click', (e: Event) => this.eventHandler({type: 'clickSquare', e, i}))
+      item.addEventListener('click', (e: Event) => this.eventHandler(e, {type: 'clickSquare', i}))
     })
   }
 
@@ -50,7 +60,7 @@ class EventMangement {
   public addClickBoardEvent = (): void => {
     const table: HTMLDivElement = document.querySelectorAll('.TttJs__table')[0]
     table.addEventListener('click', (e: Event): void =>
-      this.eventHandler({type: 'clickTable'}),
+      this.eventHandler(e, {type: 'clickTable'}),
       true
     )
   }
@@ -60,6 +70,17 @@ class EventMangement {
     const newElem: HTMLDivElement = table.cloneNode(true)
     table.parentNode.replaceChild(newElem, table)
   }
+
+  public addUndo = (): void => {
+    const elem: HTMLElement = document.createElement('i')
+    elem.setAttribute('class', 'fas fa-undo')
+    const tttJsUndo: HTMLElement = document.querySelectorAll('.TttJs__undo')[0]
+    tttJsUndo.appendChild(icon(faUndo).node[0])
+    tttJsUndo.addEventListener('click', (e: Event) => {
+      this.eventHandler(e, {type: 'clickUndo'})
+    })
+  }
+
 }
 
-export const EventMangementInst: any = new EventMangement()
+export const DomMangementInst: any = new DomMangement()

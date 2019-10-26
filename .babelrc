@@ -21,6 +21,7 @@
     ],
     "@babel/plugin-transform-async-to-generator",
     "@babel/proposal-object-rest-spread",
+    "@babel/syntax-async-functions"
   ],
   "env": {
     "production": {
