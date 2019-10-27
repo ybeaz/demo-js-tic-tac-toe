@@ -52,12 +52,13 @@
     "@types/react-redux": "^7.1.4",
     "@types/react-test-renderer": "^16.8.1",
     "@typescript-eslint/parser": "~2.5.0",
+    "babel-jest": "^24.9.0",
     "babel-loader": "8.0.5",
     "eslint": "^6.5.1",
     "eslint-loader": "3.0.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "fork-ts-checker-webpack-plugin": "^1.0.1",
-    "jest": "24.1.0",
+    "jest": "^24.9.0",
     "less-loader": "4.1.0",
     "opn-cli": "^4.1.0",
     "styles-loader": "1.0.0",
@@ -82,7 +83,7 @@
     "dev": "webpack-dev-server --config webpack.dev.js --color",
     "build": "webpack -p --config webpack.prod.js",
     "jest": "jest",
-    "ba": "webpack-bundle-analyzer --port 4200 dist02/stats.json",
+    "ba": "webpack-bundle-analyzer --port 4200 dist/dist/stats.json",
     "eject": "react-scripts eject"
   },
   "browserslist": [

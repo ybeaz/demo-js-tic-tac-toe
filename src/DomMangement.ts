@@ -13,7 +13,6 @@ class DomMangement {
     switch (action.type) {
       case 'clickUndo':
       {
-        console.info('DomMangement->eventHandler', { type: action.type, action })
         GameLogicInst.setGameState()
       }
       break

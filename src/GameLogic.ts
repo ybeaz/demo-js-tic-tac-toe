@@ -1,9 +1,6 @@
 import { DomMangementInst } from './DomMangement'
 
-interface GameState {
-  x: number[],
-  o: number[],
-}
+import * as Interfaces from './Shared/interfaces'
 
 export class GameLogic {
   private readonly luckyComb: number[][] = [
@@ -29,8 +26,8 @@ export class GameLogic {
 
   private luckyNum: number[] = []
   private player: string = this.constructorInit().playerInit
-  private prevGameState: GameState =  this.constructorInit().gameStateInit
-  private readonly gameState: GameState = this.constructorInit().gameStateInit
+  private prevGameState: Interfaces.GameState =  this.constructorInit().gameStateInit
+  private readonly gameState: Interfaces.GameState = this.constructorInit().gameStateInit
 
   private readonly clearStatusMsg = (): HTMLDivElement => {
     const tttJsStatus: HTMLDivElement = document.querySelectorAll('.TttJs__status')[0]
@@ -111,27 +108,44 @@ export class GameLogic {
     return this.player
   }
 
+  private readonly isNegativeZero = (x: number): boolean => {
+    return x === 0 && (1 / x < 0)
+  }
+
   private readonly randMinMax = (min: number, max: number): number => {
     const mathRandom: number = Math.random()
 
     return Math.floor(min + mathRandom * (max - min + 1))
   }
 
-  private readonly generateGameMove = (): void => {
-    const arrNext: number[] = this.getGameState().o.map((item: number, i: number) => {
+  private readonly getGameStateOTmp = (
+    getGameState: Interfaces.GameState,
+    isNegativeZero: Function,
+  ): number[] => {
+    return getGameState.o.map((item: number, i: number) => {
       let output: number = -i * 10
-      if (this.getGameState().x[i] > -1 || item > -1) {
-        output = this.getGameState().x[i] > -1 ? this.getGameState().x[i] : item
-      }
 
+      if (getGameState.x[i] > -1 || item > -1) {
+        output = getGameState.x[i] > -1 ? getGameState.x[i] : item
+      }
       return output
     })
-    .filter((item: number) => item <= 0)
-    .map((item: number) => item * -1 / 10)
+      .filter((item: number) => item < 0)
+      .map((item: number) => {
+        let output = item * -1 / 10
 
-    const rand: number = this.randMinMax(0, arrNext.length - 1)
-    const oPlayerMove: number = arrNext[rand]
-    this.setGameState(oPlayerMove)
+        return isNegativeZero(output) === true ? 0 : output
+      })
+  }
+
+  private readonly generateGameMove = (
+    gameStateOTmp: number[],
+    randMinMax: Function,
+  ): number => {
+    const rand: number = randMinMax(0, gameStateOTmp.length - 1)
+    const oPlayerMove: number = gameStateOTmp[rand]
+
+    return oPlayerMove
   }
 
   // tslint:disable-next-line: promise-function-async
@@ -142,7 +156,7 @@ export class GameLogic {
   }
 
   public setGameState = (index: number = -1): void => {
-    let caseWatch = ''
+    let caseWatch: string = ''
     if (index === -1) {
       caseWatch = 'prev'
       const prevGameStateX: number[] = this.prevGameState.x
@@ -173,22 +187,32 @@ export class GameLogic {
       this.getGameResult()
       this.setPlayer()
 
-      if (this.getPlayer() === 'o' && this.luckyNum.length === 0) {
+      if (this.getPlayer() === 'o'
+        && this.luckyNum.length === 0
+        && this.countMoves() !== 9
+      ) {
         caseWatch = 'oMove'
         // tslint:disable-next-line: no-floating-promises
         this.timeout(500)
           .then(() => {
-            this.generateGameMove()
+            const gameStateOTmp: number[] = this.getGameStateOTmp(
+              this.getGameState(),
+              this.isNegativeZero,
+              )
+            const oPlayerMove: number = this.generateGameMove(
+              gameStateOTmp,
+              this.randMinMax,
+            )
+            this.setGameState(oPlayerMove)
           })
       }
     }
-    // console.info('setGameState [10]', { luckyNum: this.luckyNum, caseWatch, player: this.player, pres: this.gameState, prev: this.prevGameState })
+    // console.info('setGameState [10]', { countMoves: this.countMoves(), luckyNum: this.luckyNum, caseWatch, player: this.player, pres: this.gameState, prev: this.prevGameState })
 
-    // Subscribed processes
     this.renderSpuareValues()
   }
 
-  public getGameState = (): GameState => {
+  public getGameState = (): Interfaces.GameState => {
     return this.gameState
   }
 
@@ -243,6 +267,7 @@ export class GameLogic {
       DomMangementInst.removeClickSquareEventsToBoard()
       DomMangementInst.addClickBoardEvent()
     }
+
     return playeResult
   }
 }

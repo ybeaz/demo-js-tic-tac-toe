@@ -5,9 +5,9 @@ const jestConfig = {
   verbose: true,
   testURL: "http://localhost/",
   'transform': {
-    '^.+\\.jsx?$': 'babel-jest',
+    '^.+\\.(jsx|ts)?$': 'babel-jest',
   },
-  testMatch: ['**/__tests__/*.js?(x)'],
+  testMatch: ['**/__tests__/*.(ts|js)?(x)'],
 }
 
 module.exports = jestConfig

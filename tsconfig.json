@@ -14,9 +14,7 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "moduleResolution": "node",
-    "types": [
-      "node"
-    ],
+    "types": ["jest", "node"],
   },
   "include": [
     "./src/**/*"
