@@ -82,7 +82,7 @@ export class GameLogic {
   }
 
   private readonly renderSpuareValues = (): void => {
-    const squares: NodeList = document.querySelectorAll('.TttJs__square')
+    const squares: NodeListOf<HTMLDivElement> = document.querySelectorAll('.TttJs__square')
     const tmpObj: any = {}
 
     squares.forEach((item: HTMLDivElement, i: number) => {
@@ -118,39 +118,30 @@ export class GameLogic {
     return Math.floor(min + mathRandom * (max - min + 1))
   }
 
-  private readonly getGameStateOTmp = (
+  private readonly getOMoveOpt = (
     getGameState: Interfaces.GameState,
     isNegativeZero: Function,
   ): number[] => {
     return getGameState.o.map((item: number, i: number) => {
-      let output: number = -i * 10
+      let output: number = i === 0 ? -100 : -i * 10
 
       if (getGameState.x[i] > -1 || item > -1) {
         output = getGameState.x[i] > -1 ? getGameState.x[i] : item
       }
+
       return output
     })
       .filter((item: number) => item < 0)
       .map((item: number) => {
-        let output = item * -1 / 10
+        const output: number = item === -100 ? 0 : item * -1 / 10
 
         return isNegativeZero(output) === true ? 0 : output
       })
   }
 
-  private readonly generateGameMove = (
-    gameStateOTmp: number[],
-    randMinMax: Function,
-  ): number => {
-    const rand: number = randMinMax(0, gameStateOTmp.length - 1)
-    const oPlayerMove: number = gameStateOTmp[rand]
-
-    return oPlayerMove
-  }
-
   // tslint:disable-next-line: promise-function-async
   private readonly timeout = (ms: number): any => {
-    return new Promise((res: void) => {
+    return new Promise((res: Function): any => {
       setTimeout(res, ms)
     })
   }
@@ -185,6 +176,8 @@ export class GameLogic {
       ]
 
       this.getGameResult()
+      // console.info('setGameState [10]', { countMoves: this.countMoves(), luckyNum: this.luckyNum, caseWatch, player: this.player, pres: this.gameState, prev: this.prevGameState })
+
       this.setPlayer()
 
       if (this.getPlayer() === 'o'
@@ -195,19 +188,17 @@ export class GameLogic {
         // tslint:disable-next-line: no-floating-promises
         this.timeout(500)
           .then(() => {
-            const gameStateOTmp: number[] = this.getGameStateOTmp(
-              this.getGameState(),
+            const presGameState: Interfaces.GameState = this.getGameState()
+            const oMoveOpt: number[] = this.getOMoveOpt(
+              presGameState,
               this.isNegativeZero,
               )
-            const oPlayerMove: number = this.generateGameMove(
-              gameStateOTmp,
-              this.randMinMax,
-            )
-            this.setGameState(oPlayerMove)
+            const rand: number = this.randMinMax(0, oMoveOpt.length - 1)
+            const oMove: number = oMoveOpt[rand]
+            this.setGameState(oMove)
           })
       }
     }
-    // console.info('setGameState [10]', { countMoves: this.countMoves(), luckyNum: this.luckyNum, caseWatch, player: this.player, pres: this.gameState, prev: this.prevGameState })
 
     this.renderSpuareValues()
   }
@@ -264,8 +255,10 @@ export class GameLogic {
     if (playeResult || this.countMoves() === 9) {
       this.colorLuckyNum(this.luckyNum)
       this.appendGameResult(this.luckyNum)
-      DomMangementInst.removeClickSquareEventsToBoard()
-      DomMangementInst.addClickBoardEvent()
+      setTimeout(() => {
+        DomMangementInst.removeClickSquareEventsToBoard()
+        DomMangementInst.addClickBoardEvent()
+      }, 0)
     }
 
     return playeResult

@@ -59,8 +59,7 @@ class DomMangement {
   public addClickBoardEvent = (): void => {
     const table: HTMLDivElement = document.querySelectorAll('.TttJs__table')[0]
     table.addEventListener('click', (e: Event): void =>
-      this.eventHandler(e, {type: 'clickTable'}),
-      true
+      this.eventHandler(e, {type: 'clickTable'})
     )
   }
 
@@ -81,7 +80,6 @@ class DomMangement {
   }
 
   public addBodyOnLoad = (): void => {
-
     window.onload = (): void => {
       document.getElementsByTagName('body')[0].style.opacity = '1'
     }
